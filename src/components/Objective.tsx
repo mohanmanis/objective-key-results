@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import Managers from "../stores/AppManager";
 import ObjectiveViewModel from "./ObjectiveViewModel";
 import { Filter, FilterCategories, FilterLabel, Wrapper } from "./styles/ObjectivesStyles";
-import { Accordion, Button, Container } from "react-bootstrap";
+import { Accordion, Card, Container } from "react-bootstrap";
 
 
 interface Props {
@@ -23,16 +23,31 @@ export default class Objective extends Component<Props, {}> {
     renderAllCategories() {
         return this.viewModel.allcategories.map((item, n) => {
             return <div key={n}>
-                <input type="radio" id={item} name={item} />
+                <input type="radio" id={item} name={item} onChange={()=> this.viewModel.onParentChange.bind(item)}/>
                 <FilterLabel htmlFor={item}>{item}</FilterLabel><br />
             </div>
         });
     }
 
-    renderAccordian() {
-        return this.viewModel.allOkrsParents.map((item, n) => {
-            return <Accordion.Toggle key={n} eventKey={n.toString()}>{item}</Accordion.Toggle>
-        })
+    renderAccordian(okr: any, index: number) {
+        return (
+            <Accordion key={index}>
+                <Card>
+                    <Accordion.Toggle as={Card.Header} eventKey={okr} onClick={()=>this.viewModel.onParentChange(okr)}> 
+                        {okr.title}
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey={okr}>
+                        <Card.Body>
+                            {this.viewModel.childrenOfActiveOkrs.map((item) => {
+                                return <ul>
+                                    <li>{item.title}</li>
+                                </ul>
+                            })}
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
+        )
     }
 
 
@@ -51,6 +66,11 @@ export default class Objective extends Component<Props, {}> {
                     </fieldset>
                 </form >
                 </Filter >
+                <Container>
+                    {this.viewModel.allOkrsParents.map((parent, index) => {
+                        return this.renderAccordian(parent, index)
+                    })}
+                </Container>
             </Wrapper>
         );
     }
