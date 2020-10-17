@@ -23,7 +23,7 @@ export default class Objective extends Component<Props, {}> {
     renderAllCategories() {
         return this.viewModel.allcategories.map((item, n) => {
             return <div key={n}>
-                <input type="radio" id={item} name={item} checked={this.viewModel.selectedCategory === item}onChange={this.viewModel.onCategoryChange} value={item}/>
+                <input type="radio" id={item} name={item} checked={this.viewModel.selectedCategory === item} onChange={this.viewModel.onCategoryChange} value={item} onClick={() => this.viewModel.uncheck(item)}/>
                 <FilterLabel htmlFor={item}>{item}</FilterLabel><br />
             </div>
         });

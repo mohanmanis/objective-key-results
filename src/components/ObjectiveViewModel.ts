@@ -35,12 +35,19 @@ export default class ObjectiveViewModel {
     }
 
     @action onCategoryChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const newCategory = event.target.value;
+        const newCategory = event.target.name;
         if (newCategory !== this.selectedCategory) {
             this.selectedCategory = newCategory;
         } else {
             this.selectedCategory = null;
+            event.target.checked = false;
         }
-        
+
+    }
+
+    @action uncheck = (category: string): void => {
+        if (category === this.selectedCategory) {
+            this.selectedCategory = null;
+        } 
     }
 }
