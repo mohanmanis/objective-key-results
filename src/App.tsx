@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { observer } from "mobx-react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import AppManager from './stores/AppManager';
+import Objective from "./components/Objective"
+
+interface Props {
+  managers: AppManager;
 }
 
-export default App;
+
+@observer
+export default class App extends Component<Props> {
+  constructor(props: Props) {
+    super(props);
+  }
+
+
+
+  render() {
+    return (
+      <div className="App">
+        <Objective managers={this.props.managers}></Objective>
+      </div>
+    );
+  }
+};
