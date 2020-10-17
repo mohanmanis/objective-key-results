@@ -1,10 +1,11 @@
 import AppManager from "../stores/AppManager";
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 
 export default class ObjectiveViewModel {
     private appManager: AppManager;
     @observable activeOkr: any;
     @observable childrenOfActiveOkrs: any[] = [];
+    @observable selectedCategory: any = null;
 
     constructor(appManager: AppManager) {
         this.appManager = appManager;
@@ -15,8 +16,13 @@ export default class ObjectiveViewModel {
         return Array.from(this.appManager.getAllCategories());
     }
 
-    get allOkrsParents() {
-        return this.appManager.getAllOkrsParent();
+    @computed get allOkrsParents() {
+        if (this.selectedCategory) {
+            return this.appManager.filteParentByCategory(this.selectedCategory)
+        } else {
+            return this.appManager.allOkrsParent;
+        }
+
     }
 
     getAllOkrsOfGivenParent(parentId: string) {
@@ -26,5 +32,9 @@ export default class ObjectiveViewModel {
     @action onParentChange = (okr: any): void => {
         this.activeOkr = okr;
         this.childrenOfActiveOkrs = this.getAllOkrsOfGivenParent(this.activeOkr.id)
+    }
+
+    @action onCategoryChange = (category: string): void => {
+        this.selectedCategory = category;
     }
 }

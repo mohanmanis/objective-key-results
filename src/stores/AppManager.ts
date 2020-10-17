@@ -1,6 +1,6 @@
 
 import AppService from "./services/AppService";
-import { observable, action } from "mobx"
+import { observable, action, computed } from "mobx"
 
 
 export default class AppManager {
@@ -18,7 +18,7 @@ export default class AppManager {
         }))
     }
 
-    getAllOkrsParent = (): any[] => {
+    @computed get allOkrsParent (): any[] {
         return this.okrsResults.filter((okrs: any) => okrs.parent_objective_id === "" || okrs.parent_objective_id == null);
     }
 
@@ -35,7 +35,7 @@ export default class AppManager {
     }
 
     filteParentByCategory = (category: string) => {
-        return this.getAllOkrsParent().filter(okrs => {
+        return this.allOkrsParent.filter(okrs => {
             return okrs.category === category;
         });
     }

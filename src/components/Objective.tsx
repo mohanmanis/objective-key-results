@@ -23,7 +23,7 @@ export default class Objective extends Component<Props, {}> {
     renderAllCategories() {
         return this.viewModel.allcategories.map((item, n) => {
             return <div key={n}>
-                <input type="radio" id={item} name={item} onChange={()=> this.viewModel.onParentChange.bind(item)}/>
+                <input type="radio" id={item} name={item} checked={this.viewModel.selectedCategory === item}onChange={() => this.viewModel.onCategoryChange(item)} value={item}/>
                 <FilterLabel htmlFor={item}>{item}</FilterLabel><br />
             </div>
         });
@@ -61,7 +61,6 @@ export default class Objective extends Component<Props, {}> {
                         <legend>Filter by Category</legend>
                         <FilterCategories>
                                 {this.viewModel.allcategories && this.renderAllCategories()}
-                                {/* {this.renderAccordian()} */}
                         </FilterCategories>
                     </fieldset>
                 </form >
