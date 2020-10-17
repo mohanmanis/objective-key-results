@@ -34,7 +34,13 @@ export default class ObjectiveViewModel {
         this.childrenOfActiveOkrs = this.getAllOkrsOfGivenParent(this.activeOkr.id)
     }
 
-    @action onCategoryChange = (category: string): void => {
-        this.selectedCategory = category;
+    @action onCategoryChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const newCategory = event.target.value;
+        if (newCategory !== this.selectedCategory) {
+            this.selectedCategory = newCategory;
+        } else {
+            this.selectedCategory = null;
+        }
+        
     }
 }
